@@ -1,0 +1,335 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>TargetProcess burndown by kj187</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>TargetProcess burndown</h1>
+        <p>TargetProcess burndown widget for Dashing-JS</p>
+        <p class="view"><a href="https://github.com/kj187/dashing-targetprocess_burndown">View the Project on GitHub <small>kj187/dashing-targetprocess_burndown</small></a></p>
+        <ul>
+          <li><a href="https://github.com/kj187/dashing-targetprocess_burndown/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/kj187/dashing-targetprocess_burndown/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/kj187/dashing-targetprocess_burndown">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="targetprocess-burndown-widget" class="anchor" href="#targetprocess-burndown-widget" aria-hidden="true"><span class="octicon octicon-link"></span></a>TargetProcess burndown widget</h1>
+
+<p>Author: <a href="https://github.com/kj187">Julian Kleinhans</a> · Blog: <a href="http://blog.kj187.de">http://blog.kj187.de</a></p>
+
+<p><a href="https://github.com/fabiocaseri/dashing-js">Dashing-JS</a> is a NodeJS port of <a href="http://dashing.io/">Dashing</a>, an Sinatra based framework that lets you build beautiful dashboards.</p>
+
+<p>The <a href="https://www.targetprocess.com/">TargetProcess</a> burndown widget is a graphical representation of work left to do versus time.</p>
+
+<h2>
+<a id="preview" class="anchor" href="#preview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preview</h2>
+
+<p><img src="http://res.cloudinary.com/kj187/image/upload/v1452947269/targetprocess_burndown_d9l50d.png" alt="TargetProcess burndown widget"></p>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<p><a href="https://github.com/fabiocaseri/dashing-js">Dashing-JS</a></p>
+
+<pre lang="ssh"><code>$ npm install -g dashing-js
+</code></pre>
+
+<p>Widget dependencies</p>
+
+<div class="highlight highlight-source-shell"><pre>$ npm install tp-api
+$ npm install cron
+$ npm install webshot
+$ npm install btoa</pre></div>
+
+<p>You need also PhantomJS in version 2.x, the dependency version of webshot is 1.x and this version has a bug regarding
+SVG images. You can install PhantomJS 2.x as the following:</p>
+
+<p>Furthermore a TargetProcess dashboard with a configured burndown chart ist required!</p>
+
+<pre><code>cd /tmp
+wget https://github.com/kj187/phantomjs-2.0.0-linux-x86_64/raw/master/phantomjs-2.0.0-linux-x86_64.tar.bz2 
+tar -jxf phantomjs-2.0.0-linux-x86_64.tar.bz2
+sudo cp /tmp/phantomjs-2.0.0-linux-x86_64/bin/phantomjs /usr/local/bin/
+</code></pre>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<div class="highlight highlight-source-shell"><pre>$ dashing-js install https://github.com/kj187/dashing-targetprocess_burndown/archive/master.zip</pre></div>
+
+<p>Create a new directory <code>config</code> on your root directory.
+Move the <code>widgets/targetprocess_burndown/config.targetprocess_burndown.sample.js</code> file to this directory and rename it to <code>config.targetprocess_burndown.js</code>.</p>
+
+<pre><code>assets/
+  ...
+config/
+  config.targetprocess_burndown.js
+  ...
+dashboards/
+  ...
+jobs/
+  ...
+...
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>To include the widget on your dashboard, add the following snippet to the dashboard layout file:</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">li</span> <span class="pl-e">data-row</span>=<span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span> <span class="pl-e">data-col</span>=<span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span> <span class="pl-e">data-sizex</span>=<span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span> <span class="pl-e">data-sizey</span>=<span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>&gt;
+  &lt;<span class="pl-ent">div</span> <span class="pl-e">data-id</span>=<span class="pl-s"><span class="pl-pds">"</span>targetprocess_burndown<span class="pl-pds">"</span></span> <span class="pl-e">data-view</span>=<span class="pl-s"><span class="pl-pds">"</span>TargetprocessBurndown<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;
+&lt;/<span class="pl-ent">li</span>&gt;</pre></div>
+
+<p>Or if you use Jade as your favorite template engine </p>
+
+<div class="highlight highlight-text-jade"><pre>li<span class="pl-c1">(</span><span class="pl-e">data-row</span>=<span class="pl-s">'1'</span>, <span class="pl-e">data-col</span>=<span class="pl-s">'1'</span>, <span class="pl-e">data-sizex</span>=<span class="pl-s">'1'</span>, <span class="pl-e">data-sizey</span>=<span class="pl-s">'1'</span><span class="pl-c1">)</span>
+  div<span class="pl-c1">(</span><span class="pl-e">data-id</span>=<span class="pl-s">'targetprocess_burndown'</span>, <span class="pl-e">data-view</span>=<span class="pl-s">'TargetprocessBurndown'</span>, <span class="pl-e">class</span>=<span class="pl-s">'widget'</span><span class="pl-c1">)</span></pre></div>
+
+<h2>
+<a id="settings" class="anchor" href="#settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Settings</h2>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">module</span>.<span class="pl-smi">exports</span> <span class="pl-k">=</span> {
+
+    eventName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>targetprocess_burndown<span class="pl-pds">'</span></span>,
+    cronInterval<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>1 * * * * *<span class="pl-pds">'</span></span>,
+    publicLocalImagePath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>images/burndown/iteration_burndown.png<span class="pl-pds">'</span></span>,
+
+    client<span class="pl-k">:</span> {
+        host<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>www.host.com/<span class="pl-pds">'</span></span>,
+        protocol<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>https<span class="pl-pds">'</span></span>,
+        pathToBurnDown<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>RestUI/Board.aspx?acid=12345#page=dashboard/12345&amp;appConfig=12345==<span class="pl-pds">'</span></span>,
+        username<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span>targetProcessUsername<span class="pl-pds">'</span></span>,
+        password<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>targetProcessPasswordUnfortunatelyInPlaintext<span class="pl-pds">'</span></span>
+    },
+
+    options<span class="pl-k">:</span> {
+        quality<span class="pl-k">:</span> <span class="pl-c1">100</span>,
+        renderDelay<span class="pl-k">:</span> <span class="pl-c1">7000</span>,
+        screenSize<span class="pl-k">:</span> {
+            width<span class="pl-k">:</span> <span class="pl-c1">1600</span>,
+            height<span class="pl-k">:</span> <span class="pl-c1">768</span>
+        },
+        phantomPath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>/usr/local/bin/phantomjs<span class="pl-pds">'</span></span>,
+        captureSelector<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>#dashboard-column-0 svg<span class="pl-pds">'</span></span>,
+        customCSS<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>.burnDownReport svg{background:#999!important}.burnDownReport svg text{font-size:14px!important;fill:#000!important}.burnDownReport .xLabel{fill:#000!important}.burnDownReport line.xLine,line.xAxis,line.yAxis,line.yLine{stroke:#B9B9B9!important;stroke-width:1!important}.burnDownReport line.idealLine{stroke:green!important;stroke-width:5px!important;stroke-dasharray:15,5!important}.burnDownReport line.lineChart{stroke:#000!important;stroke-linecap:round!important;stroke-width:6px!important}.burnDownReport circle.lineChartPoint{stroke:#000!important;fill:#000!important;stroke-width:4px!important}<span class="pl-pds">'</span></span>
+    }
+}</pre></div>
+
+<h3>
+<a id="global-settings" class="anchor" href="#global-settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Global settings</h3>
+
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eventName</td>
+<td>github_pullrequests</td>
+<td>Event name, must be the same as the <code>data-id</code> attribute</td>
+</tr>
+<tr>
+<td>cronInterval</td>
+<td>1 * * * * *</td>
+<td>Click <a href="https://github.com/ncb000gt/node-cron">here</a> for available cron patterns</td>
+</tr>
+<tr>
+<td>publicLocalImagePath</td>
+<td>images/burndown/iteration_burndown.png</td>
+<td>Subdirectory of <code>public/</code> directory</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="client-settings" class="anchor" href="#client-settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>client settings</h3>
+
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>host</td>
+<td><a href="http://www.host.com">www.host.com</a></td>
+<td>Host of your TargetProcess</td>
+</tr>
+<tr>
+<td>protocol</td>
+<td>https</td>
+<td>Http or https</td>
+</tr>
+<tr>
+<td>pathToBurnDown</td>
+<td>RestUI/Board.aspx?acid=12345#page=dashboard/12345&amp;appConfig=12345==</td>
+<td>Path to the page where the burndown widget is</td>
+</tr>
+<tr>
+<td>username</td>
+<td>julian.kleinhans</td>
+<td>Username for authentification</td>
+</tr>
+<tr>
+<td>password</td>
+<td>xxxxxxx</td>
+<td>Password for authentification. Unfortunately this must be an plaintext password</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="options-settings" class="anchor" href="#options-settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>options settings</h3>
+
+<p>You can use all <a href="https://github.com/brenden/node-webshot">webshot</a> options.</p>
+
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>quality</td>
+<td>100</td>
+<td>JPEG compression quality. A higher number will look better, but creates a larger file. Quality setting has no effect when streaming</td>
+</tr>
+<tr>
+<td>renderDelay</td>
+<td>7000</td>
+<td>Number of milliseconds to wait after a page loads before taking the screenshot</td>
+</tr>
+<tr>
+<td>screenSize</td>
+<td>{ width: 1600, height: 768 }</td>
+<td>The dimensions of the browser window</td>
+</tr>
+<tr>
+<td>phantomPath</td>
+<td>/usr/local/bin/phantomjs</td>
+<td>The location of PhantomJS 2.x</td>
+</tr>
+<tr>
+<td>captureSelector</td>
+<td>#dashboard-column-0 svg</td>
+<td>Captures the page area containing the provided selector and saves it to file</td>
+</tr>
+<tr>
+<td>customCSS</td>
+<td>.burnDownReport svg{background:#999!important} ...</td>
+<td>When taking the screenshot, adds custom CSS rules if defined</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="layout" class="anchor" href="#layout" aria-hidden="true"><span class="octicon octicon-link"></span></a>Layout</h3>
+
+<p>If you want to change the layout, adjust the follwing style, use <a href="https://cssminifier.com">https://cssminifier.com</a> to convert the styles to a one-liner and
+add this one-liner to the customCSS option.</p>
+
+<pre><code> .burnDownReport svg {
+    background: #999999 !important;
+}
+
+ .burnDownReport svg text {
+    font-size: 14px !important;
+    fill: #000 !important;
+}
+
+ .burnDownReport .xLabel {
+    fill: #000000 !important;
+}
+
+ .burnDownReport line.xLine, line.xAxis, line.yAxis, line.yLine {
+    stroke: #B9B9B9 !important;
+    stroke-width: 1 !important;
+}
+
+ .burnDownReport line.idealLine {
+    stroke: #008000 !important;
+    stroke-width: 5px !important;
+    stroke-dasharray: 15,5 !important;
+}
+
+ .burnDownReport line.lineChart {
+    stroke: #000000 !important;
+    stroke-linecap: round !important;
+    stroke-width: 6px !important;
+}
+
+ .burnDownReport circle.lineChartPoint {
+    stroke: #000000 !important;
+    fill: #000000 !important;
+    stroke-width: 4px !important;
+}
+</code></pre>
+
+<h2>
+<a id="changelog" class="anchor" href="#changelog" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changelog</h2>
+
+<h3>
+<a id="release-100" class="anchor" href="#release-100" aria-hidden="true"><span class="octicon octicon-link"></span></a>release-1.0.0</h3>
+
+<ul>
+<li>First release</li>
+</ul>
+
+<h2>
+<a id="other-dashing-js-widgets" class="anchor" href="#other-dashing-js-widgets" aria-hidden="true"><span class="octicon octicon-link"></span></a>Other Dashing-JS widgets</h2>
+
+<p>Do you know that I also created some other Dashing-JS widgets? Try out</p>
+
+<ul>
+<li><a href="http://kj187.github.io/dashing-jenkins_job/">Jenkins Job widget</a></li>
+<li><a href="http://kj187.github.io/dashing-github_pullrequests/">GitHub PullRequest widget</a></li>
+<li><a href="http://kj187.github.io/dashing-targetprocess_impediments/">TargetProcess Impediments widget</a></li>
+<li><a href="http://kj187.github.io/dashing-targetprocess_sprint/">TargetProcess Sprint widget</a></li>
+<li><a href="http://kj187.github.io/dashing-targetprocess_burndown/">TargetProcess Burndown widget</a></li>
+</ul>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/kj187">kj187</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-71424242-5");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
