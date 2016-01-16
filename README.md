@@ -120,6 +120,7 @@ module.exports = {
 
 ### options settings
 You can use all [webshot](https://github.com/brenden/node-webshot) options.
+
 | Setting       | Example              | Description                |
 | ------------- |----------------------| ---------------------------|
 | quality     | 100  | JPEG compression quality. A higher number will look better, but creates a larger file. Quality setting has no effect when streaming |
@@ -127,7 +128,7 @@ You can use all [webshot](https://github.com/brenden/node-webshot) options.
 | screenSize     | { width: 1600, height: 768 }  | The dimensions of the browser window |
 | phantomPath     | /usr/local/bin/phantomjs  | The location of PhantomJS 2.x |
 | captureSelector     | #dashboard-column-0 svg  | Captures the page area containing the provided selector and saves it to file |
-| customCSS     | .burnDownReport svg{background:#999!important}.burnDownReport svg text{font-size:14px!important;fill:#000!important}.burnDownReport .xLabel{fill:#000!important}.burnDownReport line.xLine,line.xAxis,line.yAxis,line.yLine{stroke:#B9B9B9!important;stroke-width:1!important}.burnDownReport line.idealLine{stroke:green!important;stroke-width:5px!important;stroke-dasharray:15,5!important}.burnDownReport line.lineChart{stroke:#000!important;stroke-linecap:round!important;stroke-width:6px!important}.burnDownReport circle.lineChartPoint{stroke:#000!important;fill:#000!important;stroke-width:4px!important}  | When taking the screenshot, adds custom CSS rules if defined |
+| customCSS     | .burnDownReport svg{background:#999!important} ...  | When taking the screenshot, adds custom CSS rules if defined |
 
 ### Layout
 
