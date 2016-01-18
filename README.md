@@ -11,6 +11,9 @@ Due to the fact that TargetProcess doesn`t provide an API for reports like a bur
 
 ![TargetProcess burndown widget](http://res.cloudinary.com/kj187/image/upload/v1453148859/targetprocess_burndown_d9l50d.png)
 
+## Example Dashboard
+![Example](http://res.cloudinary.com/kj187/image/upload/v1453152816/dashboard_example_stb2dc.png)
+
 ## Requirements
 
 [Dashing-JS](https://github.com/fabiocaseri/dashing-js)
