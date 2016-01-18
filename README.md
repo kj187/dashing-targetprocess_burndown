@@ -4,7 +4,8 @@ Author: [Julian Kleinhans](https://github.com/kj187) · Blog: [http://blog.kj187
 
 [Dashing-JS](https://github.com/fabiocaseri/dashing-js) is a NodeJS port of [Dashing](http://dashing.io/), an Sinatra based framework that lets you build beautiful dashboards.
 
-The [TargetProcess](https://www.targetprocess.com/) burndown widget is a graphical representation of work left to do versus time.
+The [TargetProcess](https://www.targetprocess.com/) burndown widget is a graphical representation of work left to do versus time. 
+Due to the fact that TargetProcess doesn`t provide an API for reports like a burndown chart, we will use a other smart technologie - screenshots :-) The npm package ["webshot"](https://www.npmjs.com/package/webshot) provides a simple API for taking webpage screenshots. So, all you need is a TargetProcess dashboard with a configured burndown chart. 
  
 ## Preview 
 
@@ -28,7 +29,7 @@ $ npm install btoa
 You need also PhantomJS in version 2.x, the dependency version of webshot is 1.x and this version has a bug regarding
 SVG images. You can install PhantomJS 2.x as the following:
 
-Furthermore a TargetProcess dashboard with a configured burndown chart ist required!
+Furthermore a TargetProcess dashboard with a configured burndown chart is required!
 
 ```
 cd /tmp
