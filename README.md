@@ -8,7 +8,7 @@ The [TargetProcess](https://www.targetprocess.com/) burndown widget is a graphic
  
 ## Preview 
 
-![TargetProcess burndown widget](http://res.cloudinary.com/kj187/image/upload/v1452947269/targetprocess_burndown_d9l50d.png)
+![TargetProcess burndown widget](http://res.cloudinary.com/kj187/image/upload/v1453148859/targetprocess_burndown_d9l50d.png)
 
 ## Requirements
 
