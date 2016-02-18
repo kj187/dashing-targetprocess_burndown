@@ -12,7 +12,8 @@ try {
             if (error) return console.log('Error:', error);
             var version = Math.round(+new Date()/1000);
             send_event(config.eventName, {
-                src: '/' + config.publicLocalImagePath + '?' + version
+                src: '/' + config.publicLocalImagePath + '?' + version,
+                url: url
             });
         });
     }, null, true, null);
